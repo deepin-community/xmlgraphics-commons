@@ -1,0 +1,9 @@
+Document: libxmlgraphics-commons-java-doc
+Title: API documentation for libxmlgraphics-commons-java
+Author: 
+Abstract: This is the API documentation for libxmlgraphics-commons-java
+Section: Programming/Java
+
+Format: HTML
+Index: /usr/share/doc/libxmlgraphics-commons-java/api/index.html
+Files: /usr/share/doc/libxmlgraphics-commons-java/api/*.html

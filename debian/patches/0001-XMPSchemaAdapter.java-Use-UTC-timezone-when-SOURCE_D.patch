@@ -1,0 +1,32 @@
+From 2146f4a44fbee1e3aef12e56ae3d904e793090cd Mon Sep 17 00:00:00 2001
+From: Vagrant Cascadian <vagrant@reproducible-builds.org>
+Date: Fri, 26 Feb 2021 19:10:10 +0000
+Subject: [PATCH] XMPSchemaAdapter.java: Use UTC timezone when
+ SOURCE_DATE_EPOCH is set.
+
+SOURCE_DATE_EPOCH specifies the timestamp, but needs to be rendered in
+UTC timezone to ensure reproducible builds.
+
+https://reproducible-builds.org/docs/source-date-epoch/
+
+This is a follow-up to https://bugs.debian.org/978499 in apache fop,
+as there is no way for fop itself to pass the timezone information for
+some values.
+---
+ .../java/org/apache/xmlgraphics/xmp/XMPSchemaAdapter.java    | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+--- a/src/main/java/org/apache/xmlgraphics/xmp/XMPSchemaAdapter.java
++++ b/src/main/java/org/apache/xmlgraphics/xmp/XMPSchemaAdapter.java
+@@ -157,6 +157,11 @@
+      * @return the formatted date
+      */
+     public static String formatISO8601Date(Date dt) {
++        // https://reproducible-builds.org/docs/source-date-epoch/
++        String source_date_epoch = System.getenv("SOURCE_DATE_EPOCH");
++        if (source_date_epoch != null) {
++            return formatISO8601Date(dt, TimeZone.getTimeZone("Etc/UTC"));
++        }
+         return formatISO8601Date(dt, TimeZone.getDefault());
+     }
+ 
